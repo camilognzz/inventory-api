@@ -1,0 +1,28 @@
+{
+  "development": {
+    "username": "root",
+    "password": "",
+    "database": "inventory_db",
+    "host": "localhost",
+    "dialect": "mysql",
+    "logging": false
+  },
+  "test": {
+    "username": "root",
+    "password": "password",
+    "database": "inventory_test",
+    "host": "localhost",
+    "dialect": "mysql",
+    "logging": false
+  },
+  "production": {
+    "use_env_variable": "DATABASE_URL",
+    "dialect": "mysql",
+    "logging": false,
+    "dialectOptions": {
+      "ssl": {
+        "rejectUnauthorized": false
+      }
+    }
+  }
+}
