@@ -49,7 +49,7 @@ class OrderRepositoryImpl extends OrderRepository {
     try {
       const orderModel = await OrderModel.findByPk(id, {
         include: [
-          { model: UserModel, as: 'user', attributes: ['id', 'email', 'role', 'firstName', 'lastName'] },
+          { model: UserModel, as: 'user', attributes: ['id', 'email', 'role'] },
           { 
             model: OrderItemModel, 
             as: 'items',
@@ -70,7 +70,7 @@ class OrderRepositoryImpl extends OrderRepository {
       const orderModels = await OrderModel.findAll({
         where: { userId },
         include: [
-          { model: UserModel, as: 'user', attributes: ['id', 'email', 'role', 'firstName', 'lastName'] },
+          { model: UserModel, as: 'user', attributes: ['id', 'email', 'role'] },
           { 
             model: OrderItemModel, 
             as: 'items',
@@ -91,7 +91,7 @@ class OrderRepositoryImpl extends OrderRepository {
     try {
       const orderModels = await OrderModel.findAll({
         include: [
-          { model: UserModel, as: 'user', attributes: ['id', 'email', 'role', 'firstName', 'lastName'] },
+          { model: UserModel, as: 'user', attributes: ['id', 'email', 'role'] },
           { 
             model: OrderItemModel, 
             as: 'items',
@@ -117,7 +117,7 @@ class OrderRepositoryImpl extends OrderRepository {
       user: orderModel.user ? {
         id: orderModel.user.id,
         email: orderModel.user.email,
-        role: orderModel.user.role
+        role: orderModel.user.role,
       } : null,
       items: orderModel.items ? orderModel.items.map(item => ({
         productId: item.productId,

@@ -33,7 +33,7 @@ const authenticateToken = (req, res, next) => {
 
 /**
  * Middleware de autorización por roles
- * @param {...string} roles - Roles permitidos ('ADMIN', 'CLIENT')
+ * Roles permitidos ('ADMIN', 'CLIENT')
  */
 const authorizeRoles = (...roles) => {
   return (req, res, next) => {

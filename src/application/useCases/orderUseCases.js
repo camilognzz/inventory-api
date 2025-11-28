@@ -109,6 +109,53 @@ class OrderUseCases {
   }
 
   /**
+   * Obtiene el historial de productos comprados por el usuario autenticado
+   */
+  async getUserPurchaseHistory(userId) {
+    try {
+      const orders = await this.getUserOrders(userId);
+
+      const map = new Map();
+
+      for (const order of orders) {
+        const orderDate = order.createdAt ? new Date(order.createdAt) : null;
+        for (const item of order.items) {
+          const key = item.productId;
+          if (!map.has(key)) {
+            map.set(key, {
+              productId: item.productId,
+              name: item.productName,
+              totalQuantity: 0,
+              totalSpent: 0,
+              lastPurchaseDate: orderDate
+            });
+          }
+
+          const entry = map.get(key);
+          entry.totalQuantity += item.quantity;
+          entry.totalSpent += item.total;
+          if (!entry.lastPurchaseDate || (orderDate && orderDate > new Date(entry.lastPurchaseDate))) {
+            entry.lastPurchaseDate = orderDate;
+          }
+        }
+      }
+
+      const result = Array.from(map.values()).map((e) => ({
+        productId: e.productId,
+        name: e.name,
+        totalQuantity: e.totalQuantity,
+        totalSpent: parseFloat(Number(e.totalSpent).toFixed(2)),
+        lastPurchaseDate: e.lastPurchaseDate ? new Date(e.lastPurchaseDate).toISOString() : null
+      }));
+
+      return result;
+    } catch (error) {
+      logger.error('Error en OrderUseCases.getUserPurchaseHistory:', error);
+      throw error;
+    }
+  }
+
+  /**
    * Obtiene todas las órdenes (admin)
    */
   async getAllOrders() {
@@ -127,7 +174,15 @@ class OrderUseCases {
     try {
       const order = await this.getOrderById(orderId, userId);
       
-      // Formatear factura con información completa
+      const items = order.items.map((i) => ({
+        name: i.productName,
+        quantity: i.quantity,
+        unitPrice: parseFloat(Number(i.unitPrice).toFixed(2)),
+        total: parseFloat(Number(i.total).toFixed(2))
+      }));
+
+      const subtotal = items.reduce((sum, it) => sum + it.total, 0);
+
       const invoice = {
         orderId: order.id,
         invoiceDate: new Date().toISOString(),
@@ -135,15 +190,12 @@ class OrderUseCases {
           userId: order.user.id,
           email: order.user.email
         },
-        items: order.items,
-        subtotal: order.totalAmount,
-        tax: order.totalAmount * 0.12, // 12% IVA
-        total: order.totalAmount * 1.12,
+        items,
+        subtotal: parseFloat(Number(subtotal).toFixed(2)),
+        total: parseFloat(Number(subtotal).toFixed(2)),
         status: order.status,
         orderDate: order.createdAt
       };
-
-      invoice.grandTotal = invoice.subtotal + invoice.tax;
 
       logger.info(`Factura generada para orden: ${orderId}`);
       return invoice;

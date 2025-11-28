@@ -80,7 +80,7 @@ class OrderController {
   getUserOrders = async (req, res) => {
     try {
       /**
-       * @api {get} /api/orders/user/mis-ordenes Obtener órdenes del usuario
+       * @api {get} /api/orders/user/my-orders Obtener órdenes del usuario
        * @apiName GetUserOrders
        * @apiGroup Orders
        * 
@@ -96,6 +96,32 @@ class OrderController {
       });
     } catch (error) {
       logger.error('Error en OrderController.getUserOrders:', error);
+      res.status(400).json({
+        success: false,
+        error: error.message
+      });
+    }
+  }
+
+  getPurchaseHistory = async (req, res) => {
+    try {
+      /**
+       * @api {get} /api/orders/user/history Historial de productos comprados (por cliente autenticado)
+       * @apiName GetUserPurchaseHistory
+       * @apiGroup Orders
+       *
+       * @apiHeader {String} Authorization Token JWT
+       *
+       * @apiSuccess {Array} history Lista agregada por producto
+       */
+      const history = await this.orderUseCases.getUserPurchaseHistory(req.user.userId);
+
+      res.json({
+        success: true,
+        data: history
+      });
+    } catch (error) {
+      logger.error('Error en OrderController.getPurchaseHistory:', error);
       res.status(400).json({
         success: false,
         error: error.message
@@ -132,7 +158,7 @@ class OrderController {
   getInvoice = async (req, res) => {
     try {
       /**
-       * @api {get} /api/orders/:id/factura Obtener factura de la orden
+       * @api {get} /api/orders/:id/invoice Obtener factura de la orden
        * @apiName GetOrderInvoice
        * @apiGroup Orders
        * 

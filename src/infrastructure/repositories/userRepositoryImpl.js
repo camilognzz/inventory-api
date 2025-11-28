@@ -45,7 +45,7 @@ throw error;
 }
 
 toDomain(userModel) {
-const User = require('../../domain/entities/user');
+const User = require('../../domain/entities/User');
 return new User({
 id: userModel.id,
 email: userModel.email,

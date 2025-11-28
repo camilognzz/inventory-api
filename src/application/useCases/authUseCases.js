@@ -1,4 +1,3 @@
-const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const logger = require('../../utils/logger');
 
@@ -9,7 +8,7 @@ this.userRepository = userRepository;
 
 async register(userData) {
 try {
-const User = require('../../domain/entities/user');
+const User = require('../../domain/entities/User');
 const user = new User(userData);
 user.validate();
 
@@ -17,10 +16,6 @@ user.validate();
   if (existingUser) {
     throw new Error('El usuario ya existe');
   }
-
-  // Hash de contraseña con bcryptjs
-  const hashedPassword = await bcrypt.hash(user.password, 10);
-  user.password = hashedPassword;
 
   const savedUser = await this.userRepository.save(user);
 

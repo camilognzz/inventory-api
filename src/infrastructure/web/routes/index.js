@@ -80,9 +80,10 @@ const setupRoutes = (app) => {
 
   // Rutas de órdenes
   router.post("/orders", orderController.createOrder);
-  router.get("/orders/user/mis-ordenes", orderController.getUserOrders);
+  router.get("/orders/user/my-orders", orderController.getUserOrders);
+  router.get("/orders/user/history", orderController.getPurchaseHistory);
   router.get("/orders/:id", orderController.getOrder);
-  router.get("/orders/:id/factura", orderController.getInvoice);
+  router.get("/orders/:id/invoice", orderController.getInvoice);
 
   // Rutas de admin para órdenes
   router.get("/orders", authorizeRoles("ADMIN"), orderController.getAllOrders);
