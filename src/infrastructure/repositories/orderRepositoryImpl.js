@@ -1,6 +1,6 @@
 const OrderRepository = require('../../domain/repositories/orderRepository');
-const { Order: OrderModel, OrderItem: OrderItemModel } = require('../models/orderModel');
-const UserModel = require('../models/userModel');
+const { Order: OrderModel, OrderItem: OrderItemModel } = require('../database/models/orderModel');
+const UserModel = require('../database/models/userModel');
 const logger = require('../../utils/logger');
 
 class OrderRepositoryImpl extends OrderRepository {
@@ -49,7 +49,7 @@ class OrderRepositoryImpl extends OrderRepository {
     try {
       const orderModel = await OrderModel.findByPk(id, {
         include: [
-          { model: UserModel, as: 'user', attributes: ['id', 'email', 'role'] },
+          { model: UserModel, as: 'user', attributes: ['id', 'email', 'role', 'firstName', 'lastName'] },
           { 
             model: OrderItemModel, 
             as: 'items',
@@ -70,7 +70,7 @@ class OrderRepositoryImpl extends OrderRepository {
       const orderModels = await OrderModel.findAll({
         where: { userId },
         include: [
-          { model: UserModel, as: 'user', attributes: ['id', 'email', 'role'] },
+          { model: UserModel, as: 'user', attributes: ['id', 'email', 'role', 'firstName', 'lastName'] },
           { 
             model: OrderItemModel, 
             as: 'items',
@@ -91,7 +91,7 @@ class OrderRepositoryImpl extends OrderRepository {
     try {
       const orderModels = await OrderModel.findAll({
         include: [
-          { model: UserModel, as: 'user', attributes: ['id', 'email', 'role'] },
+          { model: UserModel, as: 'user', attributes: ['id', 'email', 'role', 'firstName', 'lastName'] },
           { 
             model: OrderItemModel, 
             as: 'items',

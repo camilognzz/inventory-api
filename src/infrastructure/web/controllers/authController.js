@@ -7,16 +7,18 @@ class AuthController {
 
   register = async (req, res) => {
     try {
-       /**
+      /**
        * @api {post} /api/auth/register Registrar usuario
        * @apiName RegisterUser
        * @apiGroup Auth
        * 
+       * @apiParam {String} firstName Nombre del usuario
+       * @apiParam {String} lastName Apellido del usuario
        * @apiParam {String} email Email del usuario
        * @apiParam {String} password Contraseña (mínimo 6 caracteres)
        * @apiParam {String} [role=CLIENT] Rol (ADMIN/CLIENT)
        * 
-       * @apiSuccess {Object} user Usuario creado
+       * @apiSuccess {Object} user Usuario creado sin contraseña
        */
       const user = await this.authUseCases.register(req.body);
       
@@ -36,7 +38,7 @@ class AuthController {
 
   login = async (req, res) => {
     try {
-       /**
+      /**
        * @api {post} /api/auth/login Login de usuario
        * @apiName LoginUser  
        * @apiGroup Auth
@@ -45,7 +47,7 @@ class AuthController {
        * @apiParam {String} password Contraseña
        * 
        * @apiSuccess {String} token Token JWT
-       * @apiSuccess {Object} user Datos del usuario
+       * @apiSuccess {Object} user Datos del usuario (id, email, role, firstName, lastName)
        */
       const { email, password } = req.body;
       

@@ -17,7 +17,7 @@ module.exports = {
         onDelete: 'RESTRICT'
       },
       total_amount: {
-        type: Sequelize.DECIMAL(10, 2),
+        type: Sequelize.DECIMAL(10, 0),
         allowNull: false
       },
       status: {
@@ -72,11 +72,11 @@ module.exports = {
         allowNull: false
       },
       unit_price: {
-        type: Sequelize.DECIMAL(10, 2),
+        type: Sequelize.DECIMAL(10, 0),
         allowNull: false
       },
       total: {
-        type: Sequelize.DECIMAL(10, 2),
+        type: Sequelize.DECIMAL(10, 0),
         allowNull: false
       },
       created_at: {

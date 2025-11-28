@@ -1,5 +1,5 @@
 const { DataTypes } = require('sequelize');
-const { sequelize } = require('../database/config');
+const { sequelize } = require('../config');
 
 const Order = sequelize.define('Order', {
   id: {
@@ -17,7 +17,7 @@ const Order = sequelize.define('Order', {
     }
   },
   totalAmount: {
-    type: DataTypes.DECIMAL(10),
+    type: DataTypes.DECIMAL(10, 0),
     allowNull: false,
     field: 'total_amount'
   },

@@ -1,5 +1,5 @@
 const { DataTypes } = require('sequelize');
-const { sequelize } = require('../database/config');
+const { sequelize } = require('../config');
 
 const Product = sequelize.define('Product', {
   id: {
@@ -17,7 +17,7 @@ const Product = sequelize.define('Product', {
     allowNull: false
   },
   price: {
-    type: DataTypes.DECIMAL(10),
+    type: DataTypes.DECIMAL(10, 0),
     allowNull: false,
     validate: {
       min: 0

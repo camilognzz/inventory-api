@@ -1,5 +1,5 @@
 const ProductRepository = require("../../domain/repositories/productRepository");
-const ProductModel = require("../models/productModel");
+const ProductModel = require("../database/models/productModel");
 const logger = require("../../utils/logger");
 
 class ProductRepositoryImpl extends ProductRepository {

@@ -20,6 +20,14 @@ module.exports = {
         allowNull: false,
         defaultValue: 'CLIENT'
       },
+      first_name: {
+        type: Sequelize.STRING(100),
+        allowNull: false
+      },
+      last_name: {
+        type: Sequelize.STRING(100),
+        allowNull: false
+      },
       created_at: {
         type: Sequelize.DATE,
         allowNull: false,
